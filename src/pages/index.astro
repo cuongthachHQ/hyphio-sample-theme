@@ -1,0 +1,17 @@
+---
+import { getEmDashCollection, getSiteSettings } from "emdash";
+import Base from "../layouts/Base.astro";
+import PostLink from "../components/PostLink.astro";
+
+const [{ entries: posts }, settings] = await Promise.all([
+	getEmDashCollection("posts", { orderBy: { published_at: "desc" }, limit: 10 }),
+	getSiteSettings(),
+]);
+---
+
+<Base title={settings.title ?? "Home"}>
+	<h1>{settings.title}</h1>
+	<ul>
+		{posts.map((p) => <PostLink href={`/posts/${p.id}`} title={String(p.data.title ?? p.id)} />)}
+	</ul>
+</Base>

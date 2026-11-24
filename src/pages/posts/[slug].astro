@@ -1,0 +1,15 @@
+---
+import { getEmDashEntry } from "emdash";
+import { PortableText } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+
+const { entry: post } = await getEmDashEntry("posts", Astro.params.slug ?? "");
+if (!post) return Astro.rewrite("/404");
+---
+
+<Base title={String(post.data.title ?? "")}>
+	<article>
+		<h1>{post.data.title}</h1>
+		<PortableText value={post.data.content} />
+	</article>
+</Base>
